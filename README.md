@@ -42,7 +42,6 @@ Date A Programmer ("Замуж За Программиста") -  online dating 
 ~/dateprog $ bundle install
 ~/dateprog $ cp config/application-default.yml config/application.yml
 ~/dateprog $ cp config/database-default.yml config/database.yml
-~/dateprog $ cp config/application-default.yml config/application.yml
 ~/dateprog $ cp gitignore-default .gitignore
 ~/dateprog $ rake db:create
 ~/dateprog $ rake db:reset

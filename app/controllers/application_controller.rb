@@ -322,12 +322,12 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:account_update) { |params|
+    devise_parameter_sanitizer.permit(:account_update) do |params|
       params.permit(
         :email, :password, :password_confirmation, :username,:current_password,
         :age, :city, :country, :avatar
       )
-    }
+    end
   end
 
 end
