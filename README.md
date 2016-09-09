@@ -60,7 +60,7 @@ Note: If you are using [Cloud9](https://c9.io) IDE then use the following comman
 
 **Default Users**
 - admin control panel at `http://localhost:3000/admin/login` with `admin@example.com` as login and `dateprog` as password
-- test users: `test1@example.com` as login and `12345` as default password
+- test users: `test@example.com` or `test1@example.com` or `test2@example.com` as login and `123456` as default password
 
 4. Realtime chat server: clone and run your own faye rails server required for the realtime chat
 
