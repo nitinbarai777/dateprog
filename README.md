@@ -23,7 +23,7 @@ Date A Programmer ("Замуж За Программиста") -  online dating 
 ### Credits
 
 * Founder and Junior Developer: Evgenii Mironichev [@emironic](https://twitter.com/emironic)
-* Leading Developer, Backend & Frontend, JS, Deployment, Design: Nitin Barai (http://www.sheltersoft.in) <a href="mailto:info@sheltersoft.in?subject=DATEPROG">info@sheltersoft.in</a>
+* Leading Developer, Backend & Frontend, JS, Deployment, Design: [Nitin Barai](http://www.sheltersoft.in) <a href="mailto:info@sheltersoft.in?subject=DATEPROG">info@sheltersoft.in</a> - also contact Nitin on Github [@nitinbarai777](https://github.com/nitinbarai777)
 
 #### Marketing, Emails, Analytics
 
