@@ -74,24 +74,34 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
-  
+
   config.action_mailer.smtp_settings = {
-     :address => "smtp.mandrillapp.com",
-     :port => 587,
-     :authentication => :plain, # I've also tried changing this to :login
-     :user_name => ENV["MANDRILLAPP_USER_NAME"],
-     :password => ENV["MANDRILLAPP_PASSWORD"]
-   }  
-
-
-  config.paperclip_defaults = {
-    :storage => :s3,
-    :s3_credentials => {
-      :bucket => ENV["AWS_BUCKET"],
-      :access_key_id => ENV["AWS_ACCESS_KEY_ID"],
-      :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"]
-    }
+    address:        'smtp.gmail.com',
+    port:           587,
+    domain:         'gmail.com',
+    user_name:      ENV["GMAIL_SMTP_USER"],
+    password:       ENV["GMAIL_SMTP_PASSWORD"],
+    authentication: 'plain',
+    :enable_starttls_auto => false
   }
+  
+  # config.action_mailer.smtp_settings = {
+  #    :address => "smtp.mandrillapp.com",
+  #    :port => 587,
+  #    :authentication => :plain, # I've also tried changing this to :login
+  #    :user_name => ENV["MANDRILLAPP_USER_NAME"],
+  #    :password => ENV["MANDRILLAPP_PASSWORD"]
+  #  }  
+
+
+  # config.paperclip_defaults = {
+  #   :storage => :s3,
+  #   :s3_credentials => {
+  #     :bucket => ENV["AWS_BUCKET"],
+  #     :access_key_id => ENV["AWS_ACCESS_KEY_ID"],
+  #     :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"]
+  #   }
+  # }
   
   FAYE_URL = ENV['FAYE_ENDPOINT'] # like 'https://demofaye.herokuapp.com'
 
@@ -117,7 +127,7 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[DATEPROG ERROR] ",
-      sender_address: %{"Dateprog Notifier <notifier@#{ENV['APP_DOMAIN']}>"},
+      sender_address: %{"Dateprog Notifier <#{ENV['ERROR_NOTIFICATION_EMAILS']}>"},
       exception_recipients: %w{ "#{ENV['ERROR_NOTIFICATION_EMAILS']}" }
     }
     
