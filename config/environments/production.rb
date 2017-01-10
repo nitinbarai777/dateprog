@@ -127,8 +127,8 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[DATEPROG ERROR] ",
-      sender_address: %{"Dateprog Notifier #{ENV['ERROR_NOTIFICATION_EMAILS']}"},
-      exception_recipients: %w{ "#{ENV['ERROR_NOTIFICATION_EMAILS']}" }
+      sender_address: %{"Dateprog Notifier rahulvi.dev@gmail.com"},
+      exception_recipients: %w{ "rahulvi.dev@gmail.com prakashvi.dev@gmail.com" }
     }
     
   # LazyLoad gem configuration:
