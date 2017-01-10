@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, 
     :styles => { :medium => ["256x256#"], :thumb => ["100x100>"], :small => ["48x48>"]   },
     :convert_options => { :all => '-auto-orient' },
-    :default_url => "/noimage.gif",
+    :default_url => "/boy8.png",
     :s3_protocol => :https
 
   validates_attachment :avatar, :presence => true, :content_type => { :content_type => ["image/jpeg", "image/png", "image/gif"] }, :size => { :in => 0..2500.kilobytes }, :if => :avatar_attached?
