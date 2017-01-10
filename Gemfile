@@ -82,7 +82,7 @@ gem "mail"
 
 gem "country_select"
 
-gem 'countries'
+gem 'countries', :require => 'countries/global'
 
 gem "domp"
 
