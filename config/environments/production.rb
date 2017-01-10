@@ -62,7 +62,7 @@ Rails.application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # it should be like 12345.cloudfront.net
-  config.action_controller.asset_host = "//#{ENV['CLOUDFRONT_ENDPOINT']}"
+  #config.action_controller.asset_host = "//#{ENV['CLOUDFRONT_ENDPOINT']}"
   
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
