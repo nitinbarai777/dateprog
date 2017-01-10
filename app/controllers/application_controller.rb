@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   def google_analytics(category, action, user='', label='')
     if Rails.env.production?
-      gabba = Gabba::Gabba.new(ENV["GOOGLE_ANALYTIC_UA_CODE"], ENV["GOOGLE_ANALYTIC_DOMAIN_NAME"], request.user_agent)
+    gabba = Gabba::Gabba.new(ENV["GOOGLE_ANALYTIC_UA_CODE"], ENV["GOOGLE_ANALYTIC_DOMAIN_NAME"], request.user_agent)
       user = user.present? ? user : current_user
       if user.present?
         gabba.set_custom_var(1, 'dimension1', user.referral_code, Gabba::Gabba::VISITOR)

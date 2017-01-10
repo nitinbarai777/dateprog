@@ -386,7 +386,7 @@ function track_google_analytics(action, current_user_id, user_id) {
 	 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 	 
-	ga('create', 'UA-56612826-1', 'auto');
+	ga('create', 'UA-90121024-1', 'auto');
 	ga('set', '&uid', current_user_id);	
 	if (action == 'invite') {
 		mixpanel.track("invitation:open-dialog");
