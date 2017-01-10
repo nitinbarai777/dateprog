@@ -82,7 +82,7 @@ Rails.application.configure do
     user_name:      ENV["GMAIL_SMTP_USER"],
     password:       ENV["GMAIL_SMTP_PASSWORD"],
     authentication: 'plain',
-    :enable_starttls_auto => false
+    :enable_starttls_auto => true
   }
   
   # config.action_mailer.smtp_settings = {
