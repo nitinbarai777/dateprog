@@ -128,7 +128,7 @@ Rails.application.configure do
     email: {
       email_prefix: "[DATEPROG ERROR] ",
       sender_address: %{"Dateprog Notifier rahulvi.dev@gmail.com"},
-      exception_recipients: %w{ "rahulvi.dev@gmail.com prakashvi.dev@gmail.com" }
+      exception_recipients: %{ "rahulvi.dev@gmail.com" }
     }
     
   # LazyLoad gem configuration:
