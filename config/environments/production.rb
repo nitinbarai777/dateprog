@@ -76,12 +76,12 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
 
   config.action_mailer.smtp_settings = {
-    :address => 'smtp.gmail.com',
-    :port => 587,
-    :domain => 'gmail.com',
-    :user_name => ENV["GMAIL_SMTP_USER"],
-    :password =>  ENV["GMAIL_SMTP_PASSWORD"],
-    :authentication => 'plain',
+    address:        'smtp.gmail.com',
+    port:           587,
+    domain:         'gmail.com',
+    user_name:      ENV["GMAIL_SMTP_USER"],
+    password:       ENV["GMAIL_SMTP_PASSWORD"],
+    authentication: 'plain',
     :enable_starttls_auto => true
   }
   
@@ -127,8 +127,8 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[DATEPROG ERROR] ",
-      sender_address: %{"Dateprog Notifier <rahulvi.dev@gmail.com>"},
-      exception_recipients: %{ "<rahulvi.dev@gmail.com>" }
+      sender_address: %{"Dateprog Notifier #{ENV['ERROR_NOTIFICATION_EMAILS']}"},
+      exception_recipients: %w{ "#{ENV['ERROR_NOTIFICATION_EMAILS']}" }
     }
     
   # LazyLoad gem configuration:
