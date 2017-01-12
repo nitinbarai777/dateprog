@@ -1,6 +1,6 @@
 class AdminNotificationMailer < ActionMailer::Base
   default :from => "'#{I18n.t('dateprog')}' <no-reply@demo.com>"
-  default :to => "'Admin' <admin@example.com>"
+  default :to => "'Admin' <rahulvi.dev@gmail.com>"
   
  def send_new_course_published(course, user)
     @course = course
