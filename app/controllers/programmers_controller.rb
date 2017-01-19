@@ -184,6 +184,7 @@ class ProgrammersController < ApplicationController
 
   def skill_question_answers
     if params[:answer].present? && session[:console_skill_id].present?
+      skill_question = SkillQuestion.find(session[:console_skill_question_id])
       if "'#{skill_question.answer.strip}'".to_s.downcase["'#{params[:answer].strip}'".to_s.downcase]
         skill = Skill.find(session[:console_skill_id].to_i)
         if session[:console_skill_question_count]
