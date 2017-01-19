@@ -460,12 +460,12 @@ function verify_answer() {
   $('#course_level_test_answer').val($('#course_level_predefined_answer').val()); 
 }
 
-$(window).resize(function() {
+// $(window).resize(function() {
 	
-	$("#main-container").css({"padding-bottom":$(".footer").outerHeight(), "min-height":$(window).outerHeight()});
-	$("#page-top").css({"padding-bottom":$(".footer").outerHeight(), "min-height":$(window).outerHeight()});
+// 	$("#main-container").css({"padding-bottom":$(".footer").outerHeight(), "min-height":$(window).outerHeight()});
+// 	$("#page-top").css({"padding-bottom":$(".footer").outerHeight(), "min-height":$(window).outerHeight()});
 	
-	leftMenuHeight();
-	consoleHeight();
-});
+// 	leftMenuHeight();
+// 	consoleHeight();
+// });
 

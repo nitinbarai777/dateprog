@@ -14,7 +14,7 @@ Dateprog::Application.routes.draw do
   
   devise_scope :user do
     #get "sign_with_social" => "sessions#sign_with_social", :as => :sign_with_social
-    #get "/invitation/confirmation" => "sessions#invitation_confirmation", :as => :invitation_confirmation
+    get "/invitation/confirmation" => "sessions#invitation_confirmation", :as => :invitation_confirmation
     get "/notification/confirmation/:notification_token/:sign_in(/:profile)" => "sessions#notification_confirmation", :as => :notification_confirmation
     #get "/sign-up/:referral_code" => "sessions#invitation_signup", :as => :invitation_signup
   end

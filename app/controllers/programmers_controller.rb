@@ -184,11 +184,9 @@ class ProgrammersController < ApplicationController
 
   def skill_question_answers
     if params[:answer].present? && session[:console_skill_id].present?
-      skill_question = SkillQuestion.find(session[:console_skill_question_id])
-
       if "'#{skill_question.answer.strip}'".to_s.downcase["'#{params[:answer].strip}'".to_s.downcase]
+        skill = Skill.find(session[:console_skill_id].to_i)
         if session[:console_skill_question_count]
-          skill = Skill.find(session[:console_skill_id].to_i)
           if session[:console_skill_question_count].to_i == 2
             current_user.skill_id = skill.id
             current_user.is_girl = false
@@ -206,9 +204,24 @@ class ProgrammersController < ApplicationController
             skill_questions = skill.skill_questions.locale(@language.id).order("id asc")
             if skill_questions[session[:console_skill_question_count]]
               session[:console_skill_question_count] = session[:console_skill_question_count] + 1
-              skill_set_data = { question: "#{t('correct')}\n#{skill_questions[session[:console_skill_question_count]].question}", answer: "Your answer (please type) -> ", msg: "" }
-              session[:console_skill_question_id] = skill_questions[session[:console_skill_question_count]].id
-              render :json => skill_set_data.to_json
+              if skill_questions[session[:console_skill_question_count]].present?
+                skill_set_data = { question: "#{t('correct')}\n#{skill_questions[session[:console_skill_question_count]].question}", answer: "Your answer (please type) -> ", msg: "" }
+                session[:console_skill_question_id] = skill_questions[session[:console_skill_question_count]].id
+                render :json => skill_set_data.to_json
+              else
+                current_user.skill_id = skill.id
+                current_user.is_girl = false
+                current_user.save
+                
+                #increase battery
+                #battery_charge_discharge(current_user, "pass_test")
+                
+                skill_name = t(skill.name.gsub(" ", "_").downcase)
+                google_analytics("console", "unlock-passed")
+                skill_set_data = { msg: t("skill_set_to_profile", skill: skill_name) }
+                session[:console_skill_question_count] = session[:console_skill_question_id] = session[:console_skill_id] = nil
+                render :json => skill_set_data.to_json
+              end
             else
               current_user.skill_id = skill.id
               current_user.is_girl = false
