@@ -11,6 +11,7 @@ class SessionsController < Devise::SessionsController
   #singin-singup form
   def new   
     @user = User.new
+    @admin = AdminUser.find_by subdomain: request.subdomain
     super
   end
 
@@ -18,12 +19,20 @@ class SessionsController < Devise::SessionsController
   def create
     if params[:user].present?
        params[:user][:password_confirmation] = params[:user][:password]
+       # user = @admin.users.where(:email => params[:user][:email]).first
+
+       # raise user.inspect
+       
        user = User.find_by_email(params[:user][:email])
        @user = User.new
        
       # sign in
       if params[:sign_in]
         email = params[:user][:email].split("@")
+        @admin = AdminUser.find_by subdomain: request.subdomain
+
+        user = @admin.users.find_by_email(user.email)
+
           if email.present? && email[1].present? && $domain_black_list.include?(email[1])
             flash.now[:notice] = t("email_address_is_not_allow")
             render :new
@@ -36,6 +45,10 @@ class SessionsController < Devise::SessionsController
               user.update_attributes(:locale => I18n.locale)
               google_analytics("user", "login", user)
               flash.now[:notice] = "signed in successfully" # todo: replace with t()
+            else
+              flash.now[:notice] = t("check_subdomain")
+              redirect_to destroy_user_session_path,notice: t("check_subdomain")
+              return false
             end
 
             super
@@ -54,8 +67,10 @@ class SessionsController < Devise::SessionsController
               render :new
               return false
             end
-
+          
             @user = User.new(user_params)
+            @admin = AdminUser.find_by subdomain: request.subdomain
+            @user.adminuser_users.build(:admin_user_id => @admin.id)
             if @user.save
               referral_code = "#{@user.id}#{SecureRandom.hex(10)}"
               @user.update_attributes(:points => REGISTER_POINTS, :referral_code => referral_code, :battery_size => REGISTER_BATTERY_SIZE)

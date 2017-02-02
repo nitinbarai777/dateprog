@@ -14,6 +14,7 @@ class GirlsController < ApplicationController
 
   def index
     @dashboard = "active"
+    @admin = AdminUser.find_by subdomain: request.subdomain
     @users = []
     user_detail = current_user.user_detail
     @user_detail = user_detail.present? ? user_detail : UserDetail.new
@@ -24,7 +25,9 @@ class GirlsController < ApplicationController
 
     # same as in courses_controller#fetch_courses
     # display list of latest approved courses
-    @all_courses = Course.approved.paginate(:per_page => 12, :page => params[:page])
+    @all_courses = Course.approved.where(:instructor_id => @admin.users.map(&:id)).paginate(:per_page => 12, :page => params[:page])
+
+    # raise @all_courses.first.avatar.url(:medium).inspect
     #@courses = Course.published
   end
 
@@ -112,7 +115,7 @@ class GirlsController < ApplicationController
       end
 =end
 
-      users = User.active.includes(:user_detail, :votables).where(:gender => current_user.opposite_gender)
+      users = @admin.users.active.includes(:user_detail, :votables).where(:gender => current_user.opposite_gender)
       @total_users_count = users.count
 
       # filter if needed

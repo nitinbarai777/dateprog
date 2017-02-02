@@ -11,6 +11,7 @@ class CoursesController < ApplicationController
   
 
   def index
+    @admin = AdminUser.find_by subdomain: request.subdomain
     @courses_active = "active"
     if current_user.present? && params[:course_id].present?
       course = Course.find_by_id(params[:course_id])
@@ -25,7 +26,7 @@ class CoursesController < ApplicationController
 
   def fetch_courses
     # fetch only APPROVED courses
-    @all_courses = Course.approved.paginate(:per_page => 12, :page => params[:page])
+    @all_courses = Course.approved.where(:instructor_id => @admin.users.map(&:id)).paginate(:per_page => 12, :page => params[:page])
   end
 
   #new course

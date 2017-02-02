@@ -13,7 +13,7 @@
       = f.text_field :username, :autofocus => true, class: 'form-control', :placeholder => t("your_name"), :value => session[:username]
       .clearb &nbsp;        
       = f.email_field :email, :autofocus => true, class: 'form-control', :placeholder => t("email"), :value => session[:email]
-      .clearb &nbsp;  
+      .clearb &nbsp;
       = f.password_field :password, class: 'form-control',  :placeholder => t("password")
       = f.hidden_field "sign_up", :value => "sign_up", :name => "sign_up"
     .form-group

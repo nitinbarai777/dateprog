@@ -23,7 +23,7 @@
                   - if job.avatar_attached?
                     -# //  showing the avatar of the job
                     = image_tag job.avatar(:medium), :id => "img-responsive", alt: job.title, class: "img_off", lazy: true              
-                  - elsif job.user.avatar_attached?
+                  - elsif job.user.present?
                     -# // showing the avatar of the instructor                    
                     = image_tag job.user.avatar(:medium), :id => "img-responsive", alt: job.title, class: "img_off", lazy: true
                   - else

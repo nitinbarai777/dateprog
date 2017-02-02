@@ -16,6 +16,15 @@ permit_params :username, :email, :about_me, :country, :city, :skill_id, :traits,
 
 
   controller do
+    
+    def scoped_collection
+      if current_admin_user.has_role?(:superadmin)
+        User.all
+      else
+        User.joins(:adminuser_users).where('adminuser_users.admin_user_id = ?',current_admin_user.id)
+      end
+    end    
+    
     def update
       if params[:user][:password].blank?
         params[:user].delete("password")
@@ -24,6 +33,16 @@ permit_params :username, :email, :about_me, :country, :city, :skill_id, :traits,
       if params[:user][:email].blank?
         params[:user].delete("email")
         params[:user].delete("email_confirmation")
+      end
+      super
+    end
+
+    def create
+      @user = User.new(params[:user].permit!)
+      if current_admin_user.has_role?(:superadmin)
+        @user.save!
+      else
+        @user.adminuser_users.build(:admin_user_id => current_admin_user.id)
       end
       super
     end
@@ -58,6 +77,7 @@ permit_params :username, :email, :about_me, :country, :city, :skill_id, :traits,
 
   index do
     selectable_column
+    column :username
     column :email
     column :country
     column :skill_id
@@ -111,7 +131,6 @@ permit_params :username, :email, :about_me, :country, :city, :skill_id, :traits,
       f.input :is_active, as: :radio
       f.input :freeze_account, as: :radio
       f.input :is_instructor, as: :radio
-
     end
     f.actions
   end

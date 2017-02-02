@@ -96,6 +96,8 @@ gem "thin"
 # 'newrelic_rpm'
 gem 'newrelic_rpm'
 
+gem 'bootstrap-sass'
+
 # no longer required as cloudfront now is doing all the work
 # gem 'asset_sync' 
 
@@ -115,6 +117,10 @@ gem 'draper'
 gem 'exception_notification'
 
 gem 'mixpanel-ruby'
+
+gem 'rolify'
+
+gem 'cancancan'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'

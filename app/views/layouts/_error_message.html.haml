@@ -1,0 +1,10 @@
+- flash.each do |key, value|
+  #alert_message{:class => "alert alert-#{key}"}
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    = value
+:javascript
+  window.setTimeout(function () {
+    $("#alert_message").fadeTo(500, 0).slideUp(500, function () {
+      $(this).remove();
+    });
+  }, 5000);

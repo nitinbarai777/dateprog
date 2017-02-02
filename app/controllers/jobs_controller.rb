@@ -11,6 +11,7 @@ class JobsController < ApplicationController
   
   def index
     @jobs_active = "active"
+    @admin = AdminUser.find_by subdomain: request.subdomain
     fetch_jobs
   end
 
@@ -20,7 +21,7 @@ class JobsController < ApplicationController
 
   def fetch_jobs
     # fetch only APPROVED jobs
-    @all_jobs = Job.approved.paginate(:per_page => 12, :page => params[:page])
+    @all_jobs = Job.approved.where(:user_id => @admin.users.map(&:id)).paginate(:per_page => 12, :page => params[:page])
   end
  
   def show    

@@ -330,4 +330,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
-end
+
+  def after_sign_out_path_for(resource)
+    if resource == :admin_user and request.subdomain == "superv" and params[:subdomain] == "superv"
+      admin_login_path
+    elsif resource == :admin_user and (AdminUser.find_by_subdomain(request.subdomain))
+      admin_login_path
+    else
+      root_path
+    end
+  end
+
+
+  def after_sign_in_path_for(resource)
+    if resource.class == AdminUser and request.subdomain == "superv" and params[:subdomain] == "superv"
+      dashboard_path
+    elsif resource.class == AdminUser
+      admin_dashboard_path
+    else
+      girls_path
+    end
+  end
+ end

@@ -1,7 +1,7 @@
 ActiveAdmin.register Advertise do
   permit_params :body, :language_id, :start_time, :expiration_time, :programmer_only, :skill_id, :is_active, :gender, :country, :views, :clicks, :close_text
 
-
+  menu :if => proc { current_admin_user.has_role?(:admin)}
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #

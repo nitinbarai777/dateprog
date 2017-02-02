@@ -56,7 +56,7 @@
                   - else 
                     -# // showing the avatar of the instructor
                     - course_instructor = course.get_instructor_user
-                    = image_tag course_instructor.avatar(:medium), :id => "img-responsive", alt: course.title, class: "img_off", lazy: true
+                    = image_tag course_instructor.avatar(:medium), :id => "img-responsive", alt: course.title, class: "img_off", lazy: true if course_instructor.present? and course.instructor.avatar_attached?
 
       .clearb
       .next-scroll.right

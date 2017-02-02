@@ -13,6 +13,17 @@ permit_params :user_id, :course_id, :passed_levels, :is_completed
   #   permitted << :other if resource.something?
   #   permitted
   # end
+  includes :course
+
+  controller  do
+    def scoped_collection
+      if current_admin_user.has_role?(:superadmin)
+        UserCourse.all
+      else
+        UserCourse.where(:user_id => current_admin_user.users.map(&:id))
+      end
+    end
+  end
 
   index do
     selectable_column
@@ -33,8 +44,15 @@ permit_params :user_id, :course_id, :passed_levels, :is_completed
 
   form do |f|
     f.inputs do
-      f.input :user_id
-      f.input :course_id, as: :select, collection: Course.all.map{ |course| [course.title, course.id] }
+      if current_admin_user.has_role?(:superadmin)
+        f.input :user, as: :select, :collection => User.all, include_blank: false
+        f.input :course, as: :select, :collection => Course.all, include_blank: false
+      else
+        f.input :user, as: :select, :collection => current_admin_user.users, include_blank: false
+        f.input :course, as: :select, :collection => Course.where(:instructor_id => current_admin_user.users.each{ |user| user.instructor_courses.each {|u| u.id} }), include_blank: false
+      end
+      # f.input :course, as: :select, :collection => Course.where(:id => current_admin_user.users.collect{ |user| user.instructor_courses.map(&:id) } )
+      # f.input :course_id, as: :select, collection: Course.all.map{ |course| [course.title, course.id] }
       f.input :passed_levels
       f.input :is_completed, as: :radio
       

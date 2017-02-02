@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
    
   belongs_to :skill
 
+  has_many :adminuser_users, inverse_of: :user, dependent: :delete_all
+  has_many :admin_users, -> { uniq }, through: :adminuser_users
+  accepts_nested_attributes_for :adminuser_users, allow_destroy: true
+
   belongs_to :girl_skill, class_name: "Skill", foreign_key: :girl_match_skill_id
 
   belongs_to :referred_user, class_name: "User", foreign_key: :referred_user_id
@@ -67,7 +71,7 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, 
     :styles => { :medium => ["256x256#"], :thumb => ["100x100>"], :small => ["48x48>"]   },
     :convert_options => { :all => '-auto-orient' },
-    :default_url => ActionController::Base.helpers.asset_path('boy8.png'),
+    :default_url => :random_image,
     :s3_protocol => :https
 
   validates_attachment :avatar, :presence => true, :content_type => { :content_type => ["image/jpeg", "image/png", "image/gif"] }, :size => { :in => 0..2500.kilobytes }, :if => :avatar_attached?
@@ -541,6 +545,10 @@ class User < ActiveRecord::Base
     # all profiles with id<7 are considered as hidden
     # and not displayed along with other users
     self.id<7
+  end
+
+  def current_admin
+    self.admin_user.present? ? self.admin_user.id : nil
   end
            
 end
