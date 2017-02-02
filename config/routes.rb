@@ -3,13 +3,15 @@ Dateprog::Application.routes.draw do
   # trying to fix the issue with non switching locale, based on http://iswwwup.com/t/79e2daa8c1e0/locale-not-switching-in-rails-4.html
 
   constraints(Subdomain::Admin) do
-    
-    devise_for :admin_users, ActiveAdmin::Devise.config
 
     devise_scope :admin_user do
       get '/', to: 'admin/dashboard#index'
+      get '/admin/login', to: 'admin/sessions#new'
+      post '/admin/login', to: 'admin/sessions#create'
     end
-
+    
+    devise_for :admin_users, ActiveAdmin::Devise.config
+    
     scope ':locale', defaults: { locale: I18n.locale }, constraints: { locale: /en|ru/ } do
       ActiveAdmin.routes(self)
     end
@@ -128,15 +130,31 @@ Dateprog::Application.routes.draw do
      devise_scope :admin_user do
 
       get '/admin/login', to: 'active_admin/devise/sessions#new', :constraints => {:subdomain => 'superv'}
-      post 'admin/login', to: 'active_admin/devise/sessions#create', :constraints => {:subdomain => 'superv'}
+      post '/admin/login', to: 'admin/sessions#create', :constraints => {:subdomain => 'superv'}
       get '/', to: 'admin/dashboard#index', as: :dashboard, :constraints => {:subdomain => 'superv'}
       delete 'admin/logout', to: 'active_admin/devise/sessions#destroy', :constraints => {:subdomain => 'superv'}
       get 'admin/logout', to: 'active_admin/devise/sessions#destroy', :constraints => {:subdomain => 'superv'}
 
-
-
       scope ':locale', defaults: { locale: I18n.locale }, constraints: { locale: /en|ru/ } do
         get '/admin',  to: 'active_admin/devise/sessions#new', :constraints => {:subdomain => 'superv'}
+        get '/admin/dashboard',to: 'admin/dashboard#index',as: 'superadmin_dashboard', :constraints => {:subdomain => 'superv'}
+        get  '/admin/comments', to: 'admin/comments#index', as: 'superadmin_comments', :constraints => {:subdomain => 'superv'}
+        
+        post '/admin/advertises/batch_action', to: 'admin/advertises#batch_action', as: 'advertise_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/comments/batch_action', to: 'admin/comments#batch_action', as: 'comments_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/course_levels/batch_action', to: 'admin/course_levels#batch_action', as: 'course_level_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/courses/batch_action', to: 'admin/courses#batch_action', as: 'course_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/languages/batch_action', to: 'admin/languages#batch_action', as: 'language_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/jobs/batch_action', to: 'admin/jobs#batch_action', as: 'job_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/profile_views/batch_action', to: 'admin/profile_views#batch_action', as: 'profile_view_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/skill_questions/batch_action', to: 'admin/skill_questions#batch_action', as: 'skill_question_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/skill_traits/batch_action', to: 'admin/skill_traits#batch_action', as: 'skill_trait_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/skills/batch_action', to: 'admin/skills#batch_action', as: 'skill_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/tips/batch_action', to: 'admin/tips#batch_action', as: 'tips_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/traits/batch_action', to: 'admin/traits#batch_action', as: 'traits_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/users/batch_action', to: 'admin/users#batch_action', as: 'user_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/users_courses/batch_action', to: 'admin/users_courses#batch_action', as: 'user_course_batch_action', :constraints => {:subdomain => 'superv'}
+
 
         namespace :admin do
           resources :admin_users, :constraints => {:subdomain => 'superv'}
@@ -152,25 +170,13 @@ Dateprog::Application.routes.draw do
           resources :traits, :constraints => {:subdomain => 'superv'}
           resources :user_courses, :constraints => {:subdomain => 'superv'}
           resources :users, :constraints => {:subdomain => 'superv'}
-          get '/users/send_invitation/:id', to: 'admin/users#send_invitation', as: 'send_invitation'
         end
         #  get 'admin/admin_users', to: 'admin/admin_users#index',:constraints => {:subdomain => 'superv'}
         # get 'admin/admin_users', to: 'admin/admin_users#new',:constraints => {:subdomain => 'superv'}
         # post 'admin/admin_users', to: 'admin/admin_users#index',:constraints => {:subdomain => 'superv'}
       end
-
-    #   authenticated :admin_user do
-    #     root 'admins/dashboard#home'
-    #   end
-
-    #   unauthenticated do
-    #     root 'admins/sessions#new', as: :unauthenticated_admin_root
-    #   end
-
-      # get 'admins/sign_in', to: 'admins/sessions#new' , :path => "admin" , :constraints => {:subdomain => admin_subdomain}
-      # get 'admins/sign_up', to: 'admins/registrations#new' , :path => "admin/sign_up", :constraints => {:subdomain => admin_subdomain}
-      # delete 'admins/sign_out', to: 'admins/sessions#destroy' , :path => "admin/logout", :constraints => {:subdomain => admin_subdomain}
     end
+    get '/users/send_invitation/:id', to: 'admin/users#send_invitation', as: 'super_send_invitation', :constraints => {:subdomain => 'superv'}
 
   end
   # The priority is based upon order of creation: first created -> highest priority.
