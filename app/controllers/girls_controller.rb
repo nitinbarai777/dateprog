@@ -92,6 +92,7 @@ class GirlsController < ApplicationController
   def fetch_users page=''
       filter_values = ActiveSupport::JSON.decode(current_user.filter) if current_user.filter.present?
       #users = User.arel_table
+      @admin = AdminUser.find_by subdomain: request.subdomain
 
       @filter_by = ''
 =begin      

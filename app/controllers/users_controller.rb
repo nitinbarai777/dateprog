@@ -78,7 +78,7 @@ class UsersController < ApplicationController
     unless profile_access
       @requested = false
       profile_access = ProfileAccess.create(:from => current_user.id, :to => user.id)
-      message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("allow_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true) 
+      message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("allow_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true) 
       #RequestProfileWorker.perform_async(profile_access)
     end
   end
@@ -94,7 +94,7 @@ class UsersController < ApplicationController
     @profile_access = ProfileAccess.find_by_id(params[:id])
     profile_access_allow = @profile_access.allow ? false : true
     if profile_access_allow
-      message = Message.create(:sender_id => current_user.id, :recipient_id => @profile_access.allow_from.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true)
+      message = Message.create(:sender_id => current_user.id, :recipient_id => @profile_access.allow_from.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true)
       google_analytics("chat", "send")
       google_analytics("chat", "system-message", message.recipient)
       google_analytics("profile-private", "access-disallowed")

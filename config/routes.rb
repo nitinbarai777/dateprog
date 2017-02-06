@@ -11,7 +11,7 @@ Dateprog::Application.routes.draw do
     end
     
     devise_for :admin_users, ActiveAdmin::Devise.config
-    
+
     scope ':locale', defaults: { locale: I18n.locale }, constraints: { locale: /en|ru/ } do
       ActiveAdmin.routes(self)
     end
@@ -22,7 +22,7 @@ Dateprog::Application.routes.draw do
 
   constraints(Subdomain::Site) do
     
-    devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'sessions', confirmations: 'confirmations'}
+    devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'sessions', confirmations: 'confirmations', passwords: 'passwords'}
     
     devise_scope :user do
       #get "sign_with_social" => "sessions#sign_with_social", :as => :sign_with_social
@@ -140,6 +140,7 @@ Dateprog::Application.routes.draw do
         get '/admin/dashboard',to: 'admin/dashboard#index',as: 'superadmin_dashboard', :constraints => {:subdomain => 'superv'}
         get  '/admin/comments', to: 'admin/comments#index', as: 'superadmin_comments', :constraints => {:subdomain => 'superv'}
         
+        post '/admin/admin_users/batch_action', to: 'admin/admin_users#batch_action', as: 'admin_users_batch_action', :constraints => {:subdomain => 'superv'}
         post '/admin/advertises/batch_action', to: 'admin/advertises#batch_action', as: 'advertise_batch_action', :constraints => {:subdomain => 'superv'}
         post '/admin/comments/batch_action', to: 'admin/comments#batch_action', as: 'comments_batch_action', :constraints => {:subdomain => 'superv'}
         post '/admin/course_levels/batch_action', to: 'admin/course_levels#batch_action', as: 'course_level_batch_action', :constraints => {:subdomain => 'superv'}
@@ -153,7 +154,7 @@ Dateprog::Application.routes.draw do
         post '/admin/tips/batch_action', to: 'admin/tips#batch_action', as: 'tips_batch_action', :constraints => {:subdomain => 'superv'}
         post '/admin/traits/batch_action', to: 'admin/traits#batch_action', as: 'traits_batch_action', :constraints => {:subdomain => 'superv'}
         post '/admin/users/batch_action', to: 'admin/users#batch_action', as: 'user_batch_action', :constraints => {:subdomain => 'superv'}
-        post '/admin/users_courses/batch_action', to: 'admin/users_courses#batch_action', as: 'user_course_batch_action', :constraints => {:subdomain => 'superv'}
+        post '/admin/user_courses/batch_action', to: 'admin/user_courses#batch_action', as: 'user_course_batch_action', :constraints => {:subdomain => 'superv'}
 
 
         namespace :admin do

@@ -31,7 +31,7 @@ class SessionsController < Devise::SessionsController
         email = params[:user][:email].split("@")
         @admin = AdminUser.find_by subdomain: request.subdomain
 
-        user = @admin.users.find_by_email(user.email)
+        user = @admin.users.find_by_email(params[:user][:email])
 
           if email.present? && email[1].present? && $domain_black_list.include?(email[1])
             flash.now[:notice] = t("email_address_is_not_allow")
@@ -71,6 +71,7 @@ class SessionsController < Devise::SessionsController
             @user = User.new(user_params)
             @admin = AdminUser.find_by subdomain: request.subdomain
             @user.adminuser_users.build(:admin_user_id => @admin.id)
+            @user.skip_confirmation!
             if @user.save
               referral_code = "#{@user.id}#{SecureRandom.hex(10)}"
               @user.update_attributes(:points => REGISTER_POINTS, :referral_code => referral_code, :battery_size => REGISTER_BATTERY_SIZE)

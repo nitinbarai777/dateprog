@@ -109,7 +109,7 @@ class MessagesController < ApplicationController
     profile_access = ProfileAccess.find_by_from_and_to(current_user.id, user.id)
     unless profile_access
       profile_access = ProfileAccess.create(:from => current_user.id, :to => user.id)
-      message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("allow_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true)
+      message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("allow_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true)
       message = Message.create(:sender_id => user.id, :recipient_id => current_user.id, :body => t("you_have_requested_to_view_private_profile"), :system_message => true)
     end
   end  
@@ -126,11 +126,11 @@ class MessagesController < ApplicationController
       #battery_charge_discharge(current_user, "private_part")
       
       google_analytics("profile-private", "access-allowed")
-      message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true)
+      message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true)
       google_analytics("chat", "system-message", message.recipient)       
 
       # duplicate message to the user himself
-      message = Message.create(:sender_id => user.id, :recipient_id => current_user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true)
+      message = Message.create(:sender_id => user.id, :recipient_id => current_user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true)
       google_analytics("chat", "system-message", message.recipient)       
 
       #AllowProfileWorker.perform_async(profile_access)
@@ -147,11 +147,11 @@ class MessagesController < ApplicationController
         #battery_charge_discharge(current_user, "private_part")
         
         google_analytics("profile-private", "access-allowed")
-        message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true)
+        message = Message.create(:sender_id => current_user.id, :recipient_id => user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true)
         google_analytics("chat", "system-message", message.recipient)        
 
         # send the duplicated message to himself
-        message = Message.create(:sender_id => user.id, :recipient_id => current_user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id), :system_message => true)
+        message = Message.create(:sender_id => user.id, :recipient_id => current_user.id, :body => t("accept_request_msg_body", user: current_user.name, user_id: current_user.id, parameter: request.subdomain), :system_message => true)
         google_analytics("chat", "system-message", message.recipient)        
         
         @allow = true  

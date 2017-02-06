@@ -2,7 +2,7 @@
   = t("hello", email: @to.name).html_safe
 
 %p
-  = t("allow_request_msg_body", user: @from.name, user_id: @from.id)
+  = t("allow_request_msg_body", user: @from.name, user_id: @from.id, parameter: request.subdomain)
 
 %p
   = link_to t("click_here_to_open_site"), root_url
